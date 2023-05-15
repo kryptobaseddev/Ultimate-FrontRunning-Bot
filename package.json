@@ -1,0 +1,57 @@
+{
+  "name": "ultimate-frontrunning-bot",
+  "version": "0.0.1",
+  "description": "Automated trading bot for PancakeSwap based on predefined conditions",
+  "main": "bot.js",
+  "type": "module",
+  "scripts": {
+    "start": "node bot.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "release": "semantic-release"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
+  "author": "KryptoBasedDev",
+  "license": "MIT",
+  "dependencies": {
+    "@structure-codes/cli": "^0.0.6",
+    "chalk": "^5.2.0",
+    "chokidar": "^3.5.3",
+    "dotenv": "^10.0.0",
+    "ethers": "^5.5.3",
+    "express": "^4.17.1",
+    "json": "^11.0.0",
+    "semantic-release": "^21.0.2",
+    "web3": "^1.6.1",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.1",
+    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/release-notes-generator": "^11.0.2",
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "husky": "^8.0.3"
+  }
+}

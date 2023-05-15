@@ -1,0 +1,11 @@
+-   Fix issue with approving same token over and over
+-   Fix error logging to be more clear and separate out different log types
+-   Portfolio Tracking 📊: Develop a feature to track the bot's token portfolio, showing Profit and Loss. Implement a database for this functionality.
+-   Database Schema 🗄️: Develop a schema for a database to manage the bot's portfolio and other necessary aspects to track.
+-   Improved Error Handling 🐞: Enhance the bot's error handling and console logging for easier debugging and more comprehensive error coverage.
+-   Deployment Strategy 🚀: Create a strategy for deploying the bot remotely, setting the stage for frontend development.
+-   Frontend Web App 💻: Develop a frontend web application that can be used to manage the bot remotely via a desktop browser or mobile device.
+-   Multi-chain Functionality ⛓️: Expand the bot's capability to manage multiple EVM-based networks, moving beyond BSC to other chains like Ethereum, Polygon, etc.
+-   Performance Optimization ⚡: Monitor the bot's performance and identify areas for optimization to ensure it runs efficiently under different network conditions.
+-   Security Improvements 🔒: Constantly review and improve the bot's security, ensuring that sensitive information like account details remains secure.
+-   User Customization 🛠️: Allow users to customize bot settings, such as the minimum transaction value or the list of whitelisted/blacklisted tokens.
