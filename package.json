@@ -8,7 +8,10 @@
     "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prebump": "npm run prepublishOnly",
+    "prerelease": "npm run prepublishOnly",
+    "postrelease": "npm publish"
   },
   "release": {
     "branches": [

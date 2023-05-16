@@ -1,6 +1,7 @@
 # OSX
 #
 .env
+bump.json
 legacy-files/
 commit-script/
 Flows/

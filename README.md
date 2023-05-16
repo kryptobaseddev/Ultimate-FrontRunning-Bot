@@ -122,6 +122,17 @@ We are using for versioning in this program follows the principles of Semantic V
 
 Following this versioning methodology helps provide clarity about the nature of changes in each release and allows users to understand the impact of upgrading to a new version. It also helps ensure compatibility and enables users to make informed decisions when incorporating new versions into their projects.
 
+### 📌 Using Bump
+-------
+- Using the package bump to handle versioning and releases
+
+- Install bump globally using npm:
+```npm install -g @fabiospampinato/bump```
+
+- Run bump to see the available commands:
+```bump --help```
+
+
 ## 📝 TODO
 -------
 
