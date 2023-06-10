@@ -3,12 +3,13 @@ dotenv.config();
 // Importing libraries
 import constants from './Config/constants.js';
 
-process.on("uncaughtException", function (err) {
-  console.error(`Uncaught Exception: ${err.message}`);
+// Catch unhandled promise rejections
+process.on("unhandledRejection", (reason, p) => {
+  console.error('Unhandled Rejection at:', p, 'reason:', reason);
 });
 
-
 var init = async function () {
+  try {
     var customWsProvider = new constants.ethers.providers.WebSocketProvider(constants.wss);
     const account = constants.wallet.connect(customWsProvider);
     const iface = new constants.ethers.utils.Interface([
@@ -16,19 +17,22 @@ var init = async function () {
       "function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)",
       "function swapExactETHForTokensSupportingFeeOnTransferTokens(uint amountOutMin,address[] calldata path,address to,uint deadline)",
     ]);
-  
-    customWsProvider.on("pending", (tx) => {
-    
-        try {
-            customWsProvider.getTransaction(tx).then(async function (transaction) {
-              // now we will only listen for pending transaction on pancakesswap factory
-              if (
-                transaction &&
-                transaction.to === "0x10ED43C718714eb63d5aA57B78B54704E256024E"
-              ) {
-                const value = constants.web3.utils.fromWei(transaction.value.toString());
-                const gasPrice = constants.web3.utils.fromWei(transaction.gasPrice.toString());
-                const gasLimit = constants.web3.utils.fromWei(transaction.gasLimit.toString());
+
+    customWsProvider.on("pending", async (tx) => {
+      try {
+        const transaction = await customWsProvider.getTransaction(tx);
+        
+        if (transaction && transaction.to === "0x10ED43C718714eb63d5aA57B78B54704E256024E") {
+          const value = constants.web3.utils.fromWei(transaction.value.toString());
+
+          // Skip the transaction if the value is below MINVALUE
+          if (value <= constants.minValue) {
+            return;
+          }
+
+          const gasPrice = constants.web3.utils.fromWei(transaction.gasPrice.toString());
+          const gasLimit = constants.web3.utils.fromWei(transaction.gasLimit.toString());
+
                 // for example we will be only showing transaction that are higher than 30 bnb
                 if (value > constants.minValue) {
                   console.log("value : ", value);
@@ -61,6 +65,7 @@ var init = async function () {
                       }
                     }
                   }
+        
                   if (result.length > 0) {
                     let tokenAddress = "";
                     if (result[1].length > 0) {
@@ -74,7 +79,7 @@ var init = async function () {
                         // If it's not in the whitelist, then check if it's in the blacklist
                         if (constants.blacklist.includes(tokenAddress)) {
                           console.log(`Token Address: ${tokenAddress} is in the blacklist, so we will ignore this transaction.`);
-                          return; // Ignore this transaction and look for the next one
+                          return;
                         }
                       }
                       
@@ -87,7 +92,7 @@ var init = async function () {
                         "sell",
                         transaction.gasPrice
                       );
-                      // after calculating the gas price we buy the token
+        
                       console.log("going to buy");
                       await constants.buyToken(
                         account,
@@ -95,7 +100,9 @@ var init = async function () {
                         transaction.gasLimit,
                         buyGasPrice
                       );
-                      // after buying the token we sell it
+
+
+                      // after calculating the gas price we buy the token
                       console.log("going to sell the token");
                       await constants.sellToken(
                         account,
@@ -107,40 +114,31 @@ var init = async function () {
                   }
                 }
               }
-            });
-          } catch (error) {
-            if (error.message.includes("TRANSACTION_REPLACED")) {
-              console.log(`Transaction ${tx} has been replaced`);
-            } else if (
-              error.message.includes("INSUFFICIENT_INPUT_AMOUNT") &&
-              error.message.includes("CALL_EXCEPTION")
-            ) {
-              console.log(`Transaction ${tx} failed with INSUFFICIENT_INPUT_AMOUNT`);
-      } else {
-        console.log(
-          `Error occurred while processing transaction ${tx}: ${error.message}`
-        );
-        return;
-      }
-    }
-});
-
-customWsProvider._websocket.on("error", async (ep) => {
-  console.log(`Unable to connect to ${ep.subdomain} retrying in 3s...`);
-  setTimeout(init, 3000);
-});
-customWsProvider._websocket.on("close", async (code) => {
-  console.log(`Connection lost with code ${code}! Attempting reconnect in 3s...`);
-  customWsProvider._websocket.terminate();
-  setTimeout(init, 3000);
-});
-};
-
-
-init();
+            } catch (err) {
+              console.error(`Error processing transaction for tx: ${tx}`);
+              console.error(err);
+            }
+          });
+      
+          customWsProvider._websocket.on("error", async (ep) => {
+            console.log(`Unable to connect to ${ep.subdomain} retrying in 3s...`);
+            setTimeout(init, 3000);
+          });
+      
+          customWsProvider._websocket.on("close", async (code) => {
+            console.log(`Connection lost with code ${code}! Attempting reconnect in 3s...`);
+            customWsProvider._websocket.terminate();
+            setTimeout(init, 3000);
+          });
+        } catch (err) {
+          console.error('An error occurred:', err);
+        }
+      };
+      
+      init();
 //now we create the express server
 const server = constants.http.createServer(constants.app);
 // we launch the server
 server.listen(constants.PORT, () => {
-console.log(`Listening on port ${constants.PORT}`);
+  console.log(`Listening on port ${constants.PORT}`);
 });
