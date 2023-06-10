@@ -62,7 +62,7 @@ FrontRunning is a practice in which a bot makes a transaction based on prior kno
 
 <a href="https://www.quicknode.com?tap_a=111183-6cbd63&tap_s=3858549-ab57d2" target="_BLANK" rel="nofollow"><img src="https://static.tapfiliate.com/625dbbffb97c2953575167.png?a=111183-6cbd63" border="0"></a>
 
-6. Run `node bot.js` to start the bot.
+6. Run `npm start` to start the bot.
 
 ## 📝 .env Configuration
 
