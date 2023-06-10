@@ -62,13 +62,13 @@ FrontRunning is a practice in which a bot makes a transaction based on prior kno
 ## 📝 .env Configuration
 -----------
 
-Here's an example of what your `.env` file should look like:
+Here's an example of what your `.env` file should look like, make sure you replace the `PRIVATE_KEY` and `WSS` node url:
 
 ```
 env
 PORT=3888
 WSS=wss://bsc.getblock.io/<your-key>/mainnet/
-PRIVATE_KEY=12345678abcdefg
+PRIVATE_KEY=<YOUR-123456-KEY-78abcdefg-HERE>
 BNB_CONTRACT=0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c
 PAN_ROUTER_ADDRESS=0x10ED43C718714eb63d5aA57B78B54704E256024E
 BUDGET=0.01
