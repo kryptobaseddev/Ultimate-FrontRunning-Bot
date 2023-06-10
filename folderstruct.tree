@@ -23,4 +23,8 @@
 │  └── whitelist.json
 ├── package-lock.json
 ├── package.json
+├── .gitignore
+├── changelog.md
+├── bump.json
+├── TODO
 └── README.md

@@ -38,6 +38,17 @@ function erc20(account, tokenAddress) {
             stateMutability: "nonpayable",
             type: "function",
           },
+          {
+            constant: true,
+            inputs: [
+              { name: "_owner", type: "address" },
+              { name: "_spender", type: "address" }
+            ],
+            name: "allowance",
+            outputs: [{ name: "remaining", type: "uint256" }],
+            type: "function",
+          },
+          
     ],
     account
   );
