@@ -10,6 +10,7 @@ error_logs/commit_error.log
 temp.json
 .DS_Store
 design/
+contracts/
 # Xcode
 #
 files/images/

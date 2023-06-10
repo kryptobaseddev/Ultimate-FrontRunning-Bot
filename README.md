@@ -1,26 +1,30 @@
 # 🚀 Ultimate FrontRunning Bot
+
 ============================
 
 This bot is designed to listen for transactions on PancakeSwap and automatically perform token buying and selling based on predefined conditions. The bot listens to the mempool for any pending transactions and acts upon them. It uses the Ethers.js library to interact with the EVM Blockchain.
 
 ## 🎯 Features
+
 -----------
 
--   💹 Real-time transaction monitoring on PancakeSwap.
--   ✅ Whitelisting and blacklisting of tokens.
--   💰 Automated token buying and selling.
--   🔀 Dynamic slippage adjustment for sell orders.
--   ⛔ Auto-blacklisting of unsellable tokens.
--   🛠️ Error and exception handling.
--   🔄 Auto-reconnection on WebSocket connection loss.
--   📝 Logging of transaction data and errors for review and debugging.
+- 💹 Real-time transaction monitoring on PancakeSwap.
+- ✅ Whitelisting and blacklisting of tokens.
+- 💰 Automated token buying and selling.
+- 🔀 Dynamic slippage adjustment for sell orders.
+- ⛔ Auto-blacklisting of unsellable tokens.
+- 🛠️ Error and exception handling.
+- 🔄 Auto-reconnection on WebSocket connection loss.
+- 📝 Logging of transaction data and errors for review and debugging.
 
 ## 👀 What is FrontRunning?
+
 -----------
 
 FrontRunning is a practice in which a bot makes a transaction based on prior knowledge of pending transactions in the mempool which are waiting to be mined. In essence, the bot 'jumps' the queue by paying a higher gas fee to get its transaction mined first.
 
 ## 📂 Project Structure
+
 -----------
 
 - root
@@ -47,6 +51,7 @@ FrontRunning is a practice in which a bot makes a transaction based on prior kno
 
 
 ## 🛠️ How to Run the Bot
+
 -----------
 
 1. Clone this repository to your local machine.
@@ -60,6 +65,7 @@ FrontRunning is a practice in which a bot makes a transaction based on prior kno
 6. Run `node bot.js` to start the bot.
 
 ## 📝 .env Configuration
+
 -----------
 
 Here's an example of what your `.env` file should look like:
@@ -78,11 +84,13 @@ GAS_PERCENT=10
 ```
 
 ## ⚠️ Disclaimer
+
 -----------
 
 Please note that this bot is provided as-is, and I am not responsible for any losses you may incur while using it. The bot is not foolproof and does not directly detect scam or honeypot tokens. While it does include functionality for a blacklist and whitelist, these measures are not guaranteed to be 100% effective. Please use this bot responsibly and at your own risk.
 
 ## 💖 Donations
+
 -----------
 
 If you find this bot useful and would like to support its development, you can send donations to the following address: 
@@ -92,25 +100,41 @@ If you find this bot useful and would like to support its development, you can s
 Donations can be made in any of the following cryptocurrencies: ETH, BNB, MATIC, CRO, etc. Any amount is appreciated and will go a long way in helping support the further development of this bot. Thank you in advance for your generosity!
 
 ## 📚 Key Components
+
 -----------------
 
--   `bot.js`: The main entry point to the application. It connects to the Ethereum network, listens for transactions, checks token lists, and triggers buying and selling actions.
--   `buyToken.js`: Handles the purchasing of tokens on PancakeSwap.
--   `sellToken.js`: Manages the selling of tokens on PancakeSwap. If a token cannot be sold after several attempts, it gets automatically added to the blacklist.
+- `bot.js`: The main entry point to the application. It connects to the Ethereum network, listens for transactions, checks token lists, and triggers buying and selling actions.
+- `buyToken.js`: Handles the purchasing of tokens on PancakeSwap.
+- `sellToken.js`: Manages the selling of tokens on PancakeSwap. If a token cannot be sold after several attempts, it gets automatically added to the blacklist.
+- `calculateGasPrice.js`: Calculates the gas price for buying and selling tokens based on the current gas price and the gas percentage set in the .env file.
+- `whitelist.json`: Contains a list of tokens that the bot will buy and sell. Currently this is populated manually, but I am working on a way to automate this process.
+- `blacklist.json`: Contains a list of tokens that the bot will ignore, this works with the whitelist. If a token is in the whitelist and blacklist, the whitelist takes precedence. If a token is in the blacklist, the bot will ignore it. Auto-blacklisting is also implemented for tokens that cannot be sold after several attempts.
+
+## 📦 Costants Configuration
+
+-----------------
+
+- `constants.js`: Contains all the constants used in the application. These include pulling in the .env variables like the contract addresses, gas price, slippage, and other values.
+- `router.js`: Handles the routing through the PancakeSwap Router functions.
+- `erc20.js`: Contains the ERC20 ABI for interacting with ERC20 tokens.
+- `swapABI.json`: Contains the ABI for interacting with the PancakeSwap Router.
+- `abi.json`: Contains the ABI for interacting with the PancakeSwap Factory.
 
 ## 🔄 Operation
+
 ------------
 
 The bot operates by:
 
-1.  Listening for pending transactions from the PancakeSwap Factory.
-2.  Checking if a transaction's value is higher than a set minimum.
-3.  Retrieving the token address from the transaction data.
-4.  Checking if the token is in the whitelist or blacklist. If it's in the whitelist, the bot proceeds with the transaction. If it's in the blacklist, the bot ignores the transaction.
-5.  If the token passes the checks, the bot calculates the gas price for buying and selling, buys the token, and then sells it.
-6.  If a token cannot be sold after several attempts, the bot increases the slippage for each try. If all attempts fail, the token is added to the blacklist.
+1. Listening for pending transactions from the PancakeSwap Factory.
+2. Checking if a transaction's value is higher than a set minimum.
+3. Retrieving the token address from the transaction data.
+4. Checking if the token is in the whitelist or blacklist. If it's in the whitelist, the bot proceeds with the transaction. If it's in the blacklist, the bot ignores the transaction.
+5. If the token passes the checks, the bot calculates the gas price for buying and selling, buys the token, and then sells it.
+6. If a token cannot be sold after several attempts, the bot increases the slippage for each try. If all attempts fail, the token is added to the blacklist.
 
 ## 🔧 Versioning
+
 -------
 We are using for versioning in this program follows the principles of Semantic Versioning (SemVer). Semantic Versioning is a versioning scheme that consists of three numbers separated by dots: MAJOR.MINOR.PATCH.
 
@@ -123,7 +147,9 @@ We are using for versioning in this program follows the principles of Semantic V
 Following this versioning methodology helps provide clarity about the nature of changes in each release and allows users to understand the impact of upgrading to a new version. It also helps ensure compatibility and enables users to make informed decisions when incorporating new versions into their projects.
 
 ### 📌 Using Bump
+
 -------
+
 - Using the package bump to handle versioning and releases
 
 - Install bump globally using npm:
@@ -134,16 +160,22 @@ Following this versioning methodology helps provide clarity about the nature of 
 
 
 ## 📝 TODO
--------
 
--   Portfolio Tracking 📊: Develop a feature to track the bot's token portfolio, showing Profit and Loss. Implement a database for this functionality.
--   Database Schema 🗄️: Develop a schema for a database to manage the bot's portfolio and other necessary aspects to track.
--   Improved Error Handling 🐞: Enhance the bot's error handling and console logging for easier debugging and more comprehensive error coverage.
--   Deployment Strategy 🚀: Create a strategy for deploying the bot remotely, setting the stage for frontend development.
--   Frontend Web App 💻: Develop a frontend web application that can be used to manage the bot remotely via a desktop browser or mobile device.
--   Multi-chain Functionality ⛓️: Expand the bot's capability to manage multiple EVM-based networks, moving beyond BSC to other chains like Ethereum, Polygon, etc.
--   Performance Optimization ⚡: Monitor the bot's performance and identify areas for optimization to ensure it runs efficiently under different network conditions.
--   Security Improvements 🔒: Constantly review and improve the bot's security, ensuring that sensitive information like account details remains secure.
--   User Customization 🛠️: Allow users to customize bot settings, such as the minimum transaction value or the list of whitelisted/blacklisted tokens.
+------
+
+- Portfolio Tracking 📊: Develop a feature to track the bot's token portfolio, showing Profit and Loss. Implement a database for this functionality.
+- Database Schema 🗄️: Develop a schema for a database to manage the bot's portfolio and other necessary aspects to track.
+- Improved Error Handling 🐞: Enhance the bot's error handling and console logging for easier debugging and more comprehensive error coverage.
+- Deployment Strategy 🚀: Create a strategy for deploying the bot remotely, setting the stage for frontend development.
+- Frontend Web App 💻: Develop a frontend web application that can be used to manage the bot remotely via a desktop browser or mobile device.
+- Backend API 📡: Develop a backend API to support the frontend web app, allowing users to manage the bot remotely.
+- Telegram Integration 📱: Integrate the bot with Telegram to allow users to manage the bot remotely via the Telegram app.
+- Discord Integration 🎮: Integrate the bot with Discord to allow users to manage the bot remotely via the Discord app.
+- Twitter Integration 🐦: Integrate the bot with Twitter to allow users to manage the bot remotely via the Twitter app.
+- Multi-chain Functionality ⛓️: Expand the bot's capability to manage multiple EVM-based networks, moving beyond BSC to other chains like Ethereum, Polygon, etc.
+- Performance Optimization ⚡: Monitor the bot's performance and identify areas for optimization to ensure it runs efficiently under different network conditions.
+- Security Improvements 🔒: Constantly review and improve the bot's security, ensuring that sensitive information like account details remains secure.
+- User Customization 🛠️: Allow users to customize bot settings, such as the minimum transaction value or the list of whitelisted/blacklisted tokens.
+- Fix Token Approval issue 🐞: Fix the issue where the bot is approving same token contract over and over.
 
 Remember to keep your Ethereum account and network details secure, as they are sensitive data. Trading involves risks and automated trading can result in a loss of funds, so use this bot responsibly. 🤖
